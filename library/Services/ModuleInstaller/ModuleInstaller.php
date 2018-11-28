@@ -77,6 +77,7 @@ class ModuleInstaller implements ShopServiceInterface
      */
     public function installModule($modulePath)
     {
+        $this->prepareProjectFile();
         $module = $this->loadModule($modulePath);
 
         $moduleCache = oxNew(\OxidEsales\Eshop\Core\Module\ModuleCache::class, $module);
@@ -112,5 +113,15 @@ class ModuleInstaller implements ShopServiceInterface
             throw new Exception("Module not found");
         }
         return $module;
+    }
+
+    /**
+     * Ensure we have write permissions for project file while module is installed.
+     */
+    private function prepareProjectFile()
+    {
+        $fileName = OX_BASE_PATH .
+                    \OxidEsales\EshopCommunity\Internal\ProjectDIConfig\Dao\ProjectYamlDaoInterface::PROJECT_FILE_NAME;
+        \OxidEsales\TestingLibrary\Services\Library\CliExecutor::executeCommand("sudo chmod 777 -R $fileName");
     }
 }
