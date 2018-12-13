@@ -98,7 +98,6 @@ class ModuleLoader
         $baseClass->setConfig(null);
         $baseClass->setSession(null);
         $baseClass->setUser(null);
-        $baseClass->setAdminMode(null);
 
         if (method_exists($baseClass, 'setRights')) {
             $baseClass->setRights(null);
