@@ -27,7 +27,7 @@ foreach ($testSuites as $suite) {
 
         $configuration = "-c " . escapeshellarg($configurationFile);
 
-        passthru("$php $codecept build $configuration, $ccReturnCode);
+        passthru("$php $codecept build $configuration", $ccReturnCode);
         passthru("TEST_SUITE=$suite $php $codecept $configuration run acceptance --xml --no-colors $arguments", $ccReturnCode);
     }
     $returnCode = $returnCode == 0 ? $ccReturnCode : $returnCode;
