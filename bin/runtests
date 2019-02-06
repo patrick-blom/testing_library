@@ -29,11 +29,14 @@ $phpUnit = "$php $phpUnit --bootstrap " .__DIR__ ."/../bootstrap.php";
 $arguments = empty($arguments) ? array(escapeshellarg('AllTestsUnit')) : $arguments;
 
 $returnCode = 0;
+
 if (end($arguments) == escapeshellarg('AllTestsUnit')) {
     $testSuites = $testConfig->getTestSuites();
+    $suiteCount = 1;
     foreach ($testSuites as $suite) {
-        $suiteReturnCode = runSuite($suite, $phpUnit, $arguments);
+        $suiteReturnCode = runSuite($suite, $phpUnit, $arguments, $suiteCount);
         $returnCode = $returnCode == 0 ? $suiteReturnCode : $returnCode;
+        $suiteCount++;
     }
 } else {
     $suite = $testConfig->getCurrentTestSuite();
@@ -51,11 +54,11 @@ exit($returnCode);
  *
  * @return int Error code.
  */
-function runSuite($suite, $phpUnit, $arguments)
+function runSuite($suite, $phpUnit, $arguments, $suiteCount)
 {
     $configuration = '';
     if (file_exists($suite ."/phpunit.xml")) {
-        $configuration = "-c ". escapeshellarg("$suite/phpunit.xml");
+        $configuration = "-c ". escapeshellarg("$suite/phpunit.$suiteCount.xml");
     }
 
     $arguments = implode(' ', $arguments);
