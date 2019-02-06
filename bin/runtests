@@ -63,7 +63,7 @@ function runSuite($suite, $phpUnit, $arguments, $suiteCount)
 
     $arguments = implode(' ', $arguments);
     if (getenv('WORKSPACE')) {
-        $arguments .= "--log-junit ".getenv('WORKSPACE'). "/logs/phpunit_log.$suiteCount.xml";
+        $arguments = " --log-junit ". getenv('WORKSPACE') . "/logs/phpunit_log.$suiteCount.xml " .  $arguments;
     }
 
     $return = 0;
