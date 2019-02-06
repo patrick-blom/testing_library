@@ -58,10 +58,14 @@ function runSuite($suite, $phpUnit, $arguments, $suiteCount)
 {
     $configuration = '';
     if (file_exists($suite ."/phpunit.xml")) {
-        $configuration = "-c ". escapeshellarg("$suite/phpunit.$suiteCount.xml");
+        $configuration = "-c ". escapeshellarg("$suite/phpunit.xml");
     }
 
     $arguments = implode(' ', $arguments);
+    if (getenv('WORKSPACE')) {
+        $arguments .= "--log-junit ".getenv('WORKSPACE'). "/logs/phpunit_log.$suiteCount.xml";
+    }
+
     $return = 0;
     $suite = escapeshellarg($suite);
     passthru("TEST_SUITE=$suite $phpUnit $configuration $arguments", $return);
